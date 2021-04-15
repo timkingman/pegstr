@@ -67,6 +67,11 @@ notch_offset_z = 2.5;
 
 // Offset from the front of the holder to the front of the notch
 notch_offset_y = 8.2;
+
+
+peg_count_method_x = "round";
+peg_count_method_z = "round";
+
 /* [Hidden] */
 
 // what is the $fn parameter
@@ -78,9 +83,20 @@ hole_size = 6;//6.0035;
 board_thickness = 5;
 
 
+function count_method(method, x) =
+    (method == "floor") ? floor(x) :
+    (method == "ceil") ? ceil(x) :
+    (method == "extra") ? round(x)+1 :
+             round(x);
+
+
 holder_total_x = wall_thickness + holder_x_count*(wall_thickness+holder_x_size);
 holder_total_y = wall_thickness + holder_y_count*(wall_thickness+holder_y_size);
-holder_total_z = round(holder_height/hole_spacing)*hole_spacing;
+
+peg_count_x = count_method(peg_count_method_x, holder_total_x/hole_spacing);
+peg_count_z = count_method(peg_count_method_z, holder_height/hole_spacing);
+
+holder_total_z = peg_count_z*hole_spacing;
 holder_roundness = min(corner_radius, holder_x_size/2, holder_y_size/2); 
 
 
@@ -178,12 +194,12 @@ module pin(clip)
 module pinboard_clips() 
 {
 	rotate([0,90,0])
-	for(i=[0:round(holder_total_x/hole_spacing)]) {
-		for(j=[0:max(strength_factor, round(holder_height/hole_spacing))]) {
+	for(i=[0:peg_count_x]) {
+		for(j=[0:max(strength_factor, peg_count_z)]) {
 
 			translate([
 				j*hole_spacing, 
-				-hole_spacing*(round(holder_total_x/hole_spacing)/2) + i*hole_spacing, 
+				-hole_spacing*(peg_count_x/2) + i*hole_spacing,
 				0])
 					pin(j==0);
 		}
@@ -196,19 +212,19 @@ module pinboard(clips)
 	translate([-epsilon, 0, -wall_thickness - board_thickness/2 + epsilon])
 	hull() {
 		translate([-clip_height/2 + hole_size/2, 
-			-hole_spacing*(round(holder_total_x/hole_spacing)/2),0])
+			-hole_spacing*(peg_count_x/2),0])
 			cylinder(r=hole_size/2, h=wall_thickness);
 
 		translate([-clip_height/2 + hole_size/2, 
-			hole_spacing*(round(holder_total_x/hole_spacing)/2),0])
+			hole_spacing*(peg_count_x/2),0])
 			cylinder(r=hole_size/2,  h=wall_thickness);
 
-		translate([max(strength_factor, round(holder_height/hole_spacing))*hole_spacing,
-			-hole_spacing*(round(holder_total_x/hole_spacing)/2),0])
+		translate([max(strength_factor, peg_count_z)*hole_spacing,
+			-hole_spacing*(peg_count_x/2),0])
 			cylinder(r=hole_size/2, h=wall_thickness);
 
-		translate([max(strength_factor, round(holder_height/hole_spacing))*hole_spacing,
-			hole_spacing*(round(holder_total_x/hole_spacing)/2),0])
+		translate([max(strength_factor, peg_count_z)*hole_spacing,
+			hole_spacing*(peg_count_x/2),0])
 			cylinder(r=hole_size/2,  h=wall_thickness);
 
 	}
