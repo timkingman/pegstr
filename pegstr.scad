@@ -53,6 +53,20 @@ holder_cutout_side = 0.0;
 holder_angle = 0.0;
 
 
+// carve notches in the left and right sides of the holder wall, x depth notched in the side walls
+notch_depth_x = 1;
+
+// height of the notch cutout
+notch_height_z = 3;
+
+// width of the notch cutout along the left and right sides
+notch_width_y = 8.2;
+
+// Offset from the top of the holder to the top of the notch
+notch_offset_z = 2.5;
+
+// Offset from the front of the holder to the front of the notch
+notch_offset_y = 8.2;
 /* [Hidden] */
 
 // what is the $fn parameter
@@ -241,6 +255,7 @@ module holder(negative)
 						holder_roundness*taper_ratio + epsilon, 
 						holder_roundness*taper_ratio + epsilon);
 				} else {
+                    union(){
 					round_rect_ex(
 						holder_y_size, 
 						holder_x_size, 
@@ -249,6 +264,8 @@ module holder(negative)
 						holder_height+2*epsilon,
 						holder_roundness + epsilon, 
 						holder_roundness*taper_ratio + epsilon);
+                    notch_m1();
+                        }
 				}
 
 			if (!negative)
@@ -309,6 +326,17 @@ module holder(negative)
 	} // for X
 }
 
+
+module notch_m1() {
+    if (notch_depth_x > 0) {
+        translate([
+            0-holder_y_size/2 + notch_offset_y,
+            0-holder_x_size/2 - notch_depth_x,
+            holder_height/2 - notch_offset_z - notch_height_z
+        ])		
+            cube([notch_width_y,holder_x_size + 2*notch_depth_x ,notch_height_z]);
+    }
+}
 
 module pegstr() 
 {
