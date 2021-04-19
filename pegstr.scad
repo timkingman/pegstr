@@ -28,6 +28,11 @@ holder_x_count = 1;
 // how many times to repeat the holder on Y axis
 holder_y_count = 2;
 
+// Additional spacing between x count holders (total distance between holders will be wall_thickness+holder_x_spacing)
+holder_x_spacing = 0.0;
+// Additional spacing. between y count holders (total distance between holders will be wall_thickness+holder_y_spacing)
+holder_y_spacing = 0.0;
+
 // orifice corner radius (roundness). Needs to be less than min(x,y)/2.
 corner_radius = 30;
 
@@ -90,8 +95,8 @@ function count_method(method, x) =
              round(x);
 
 
-holder_total_x = wall_thickness + holder_x_count*(wall_thickness+holder_x_size);
-holder_total_y = wall_thickness + holder_y_count*(wall_thickness+holder_y_size);
+holder_total_x = wall_thickness + holder_x_count*(wall_thickness+holder_x_size) + (holder_x_count-1)*holder_x_spacing;
+holder_total_y = wall_thickness + holder_y_count*(wall_thickness+holder_y_size) + (holder_y_count-1)*holder_y_spacing;
 
 peg_count_x = count_method(peg_count_method_x, holder_total_x/hole_spacing);
 peg_count_z = count_method(peg_count_method_z, holder_height/hole_spacing);
@@ -236,9 +241,9 @@ module holder(negative)
 		for(y=[1:holder_y_count]) 
 /*		render(convexity=2)*/ {
 			translate([
-				-holder_total_y /*- (holder_y_size+wall_thickness)/2*/ + y*(holder_y_size+wall_thickness) + wall_thickness,
+				-holder_total_y /*- (holder_y_size+wall_thickness)/2*/ + y*(holder_y_size +wall_thickness) + (y-1)*holder_y_spacing + wall_thickness,
 
-				-holder_total_x/2 + (holder_x_size+wall_thickness)/2 + (x-1)*(holder_x_size+wall_thickness) + wall_thickness/2,
+				-holder_total_x/2 + (holder_x_size+wall_thickness)/2 + (x-1)*(holder_x_size+wall_thickness) + (x-1)*holder_x_spacing + wall_thickness/2,
 				 0])			
 	{
 		rotate([0, holder_angle, 0])
