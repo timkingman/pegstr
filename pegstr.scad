@@ -11,22 +11,23 @@
 // preview[view:north, tilt:bottom diagonal]
 
 // width of the orifice
-holder_x_size = 10;
+holder_x_size = 25.7;
 
 // depth of the orifice
-holder_y_size = 10;
+holder_y_size = 25.7;
 
 // hight of the holder
-holder_height = 15;
+holder_height = 25;//35.5;
 
 // how thick are the walls. Hint: 6*extrusion width produces the best results.
-wall_thickness = 1.85;
+wall_thickness = 1.85;//*2;
+
 
 // how many times to repeat the holder on X axis
 holder_x_count = 1;
 
 // how many times to repeat the holder on Y axis
-holder_y_count = 2;
+holder_y_count = 1;
 
 // Additional spacing between x count holders (total distance between holders will be wall_thickness+holder_x_spacing)
 holder_x_spacing = 0.0;
@@ -34,7 +35,7 @@ holder_x_spacing = 0.0;
 holder_y_spacing = 0.0;
 
 // orifice corner radius (roundness). Needs to be less than min(x,y)/2.
-corner_radius = 30;
+corner_radius = 50;
 
 // Use values less than 1.0 to make the bottom of the holder narrow
 taper_ratio = 1.0;
@@ -43,13 +44,13 @@ taper_ratio = 1.0;
 /* [Advanced] */
 
 // offset from the peg board, typically 0 unless you have an object that needs clearance
-holder_offset = 0.0;
+holder_offset = 60;// 10;//5.2;
 
 // what ratio of the holders bottom is reinforced to the plate [0.0-1.0]
-strength_factor = 0.66;
+strength_factor = 1.0;
 
 // for bins: what ratio of wall thickness to use for closing the bottom
-closed_bottom = 0.0;
+closed_bottom = 1.0;
 
 // what percentage cu cut in the front (example to slip in a cable or make the tool snap from the side)
 holder_cutout_side = 0.0;
@@ -57,21 +58,20 @@ holder_cutout_side = 0.0;
 // set an angle for the holder to prevent object from sliding or to view it better from the top
 holder_angle = 0.0;
 
-
 // carve notches in the left and right sides of the holder wall, x depth notched in the side walls
-notch_depth_x = 1;
+notch_depth_x = 0;//1;
 
 // height of the notch cutout
-notch_height_z = 3;
+notch_height_z = 0;// 5.6;//3;
 
 // width of the notch cutout along the left and right sides
-notch_width_y = 8.2;
+notch_width_y = 0;//8.2;
 
 // Offset from the top of the holder to the top of the notch
-notch_offset_z = 2.5;
+notch_offset_z = 0;//-0.1;//2.5;
 
 // Offset from the front of the holder to the front of the notch
-notch_offset_y = 8.2;
+notch_offset_y = 0;//8.2;
 
 
 peg_count_method_x = "round";
